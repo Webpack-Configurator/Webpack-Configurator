@@ -1,1 +1,1 @@
-# Iteration-Project
+# WebpackConfigAssist
