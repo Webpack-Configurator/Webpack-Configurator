@@ -11,11 +11,37 @@ import Linting from './webpackComponents/Linting';
 import Optimization from './webpackComponents/Optimization';
 import Plugin from './webpackComponents/Plugin';
 import Home from './Home';
+// import 'highlight.js/styles/darcula.css';
+// import hljs from 'highlight.js';
+import Highlight from 'react-highlight';
+import { Prettify } from './helpers/Prettify'
+
+
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
 
 const App = () => {
+	
 
 	const [selected, setSelected] = useState({});
+
+	const [store, setStore] = useState();
+
+	const updateObject = (obj) => {
+		// setStore(pretty)
+		const test = Prettify(obj);
+		setStore(test);
+	}
+
+	useEffect(() =>  {
+		console.log('hihi')
+		fetch('/api')
+			.then(response => response.json())
+			.then(data => {
+				console.log('it was working')
+				console.log(data)
+				updateObject(data[0].code)
+			})
+	})	
 
 	//coming from database
 	//name, code, require, devDependency, dependency
@@ -32,9 +58,10 @@ const App = () => {
 		} else {
 			setSelected({...selected, [name]: value })
 		}
-
 	}
 
+	
+	
 	return (
 		<div className="main-container">
 			<div className="component-container">
@@ -50,7 +77,10 @@ const App = () => {
 				<Plugin selected={selected} onChange={handleSelectChange}/>
 			</div>
 			<div className="code-container">
-				<Home />
+				{/* <Home /> */}
+				<Highlight className='javascript'>
+				{store}
+				</Highlight>
 			</div>
 		</div>
 	)
