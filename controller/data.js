@@ -1,49 +1,390 @@
-const Dependencies = require("../models/dependencies");
+const models = require("../models/dependencies");
+const dependencies = require("../models/dependencies");
 const webpackController = {};
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-webpackController.add = (req, res, next) => {
-	const obj = {
-		name: "babel",
-		code: {
-			module: {
-				rules: [
-					{
-						test: "/\.(js|jsx)$/",
-						use: {
-							loader: 'babel-loader',
-							options: {
-								presets: ['@babel/preset-env', '@babel/preset-react'],
-							},
-						},
-					},
-				],
-			},
-			resolve: {
-				extensions: [
-					'.js',
-					'.jsx',
-				],
-			},
-		},
-		require: "",
-		dependencies: [],
-		devDependencies: ["babel-loader", "@babel-core", "@babel/preset-env"]
-	}
-	Dependencies.create(obj);
+// webpackController.add = async (req, res, next) => {
+// 	const arr = [
 
-	res.locals.added = obj;
-	next();
-}
+// 	]
+// 	let request = await models.Library.insertMany(arr);
+
+// 	res.locals.added = request;
+// 	next();
+// }
 
 webpackController.getAll = async (req, res, next) => {
-	const response = await Dependencies.find({})
+	const response = await models.Library.find({})
 	res.locals.data = response;
 	next();
 }
 
 module.exports = webpackController;
 
+// {
+// 	name: "tailwindcss",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.css$/",
+// 					use: [
+// 						'style-loader',
+// 						{
+// 							loader: 'css-loader',
+// 							options: {
+// 								importLoaders: 1
+// 							}
+// 						},
+// 						'postcss-loader'
+// 					]
+// 				}
+// 			]
+// 		}
+// 	},
+// 	require: "",
+// 	dependencies: ["tailwindcss"],
+// 	devDependencies: []
+// },
+// {
+// 	name: "cssmodules",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.css$/",
+// 					use: [
+// 						"style-loader",
+// 						{
+// 							loader: "css-loader",
+// 							options: {
+// 								importLoaders: 1,
+// 								modules: true,
+// 							},
+// 						},
+// 					],
+// 				},
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["css-loader", "style-loader"]
+// }
 
+// {
+// 	name: "webpackbundleanalyzer",
+// 	code: {
+// 		plugins: [
+// 			new BundleAnalyzerPlugin({
+// 				analyzerMode: "static",
+// 				openAnalyzer: false,
+// 			})
+// 		]
+// 	},
+// 	require: "const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;",
+// 	dependencies: [],
+// 	devDependencies: ["webpack-bundle-analyzer"]
+// }
+
+// {
+// 	name: "prettier",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["prettier", "eslint-config-prettier", "eslint-plugin-prettier"]
+// }
+
+// {
+// 	name: "eslint",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["eslint"]
+// }
+
+// {
+// 	name: "testcafe",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["testcafe"]
+// }
+
+// {
+// 	name: "cypress",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["cypress"]
+// }
+
+// {
+// 	name: "ava",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["ava"]
+// }
+
+// {
+// 	name: "jasmine",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["jasmine"]
+// }
+
+// {
+// 	name: "chai",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["chai"]
+// }
+
+// {
+// 	name: "mocha",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["mocha"]
+// }
+
+// {
+// 	name: "jest",
+// 	code: {},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["jest"]
+// }
+
+// {
+// 	name: "bootstrap",
+// 	code: {},
+// 	require: "",
+// 	dependencies: ["bootstrap", "jquery", "popper.js"],
+// 	devDependencies: ["css-loader", "style-loader"]
+// }
+
+// {
+// 	name: "cleanwebpackplugin",
+// 	code: {
+// 		plugins: [
+// 			"new CleanWebpackPlugin()"
+// 		]
+// 	},
+// 	require: "const { CleanWebpackPlugin } = require('clean-webpack-plugin');",
+// 	dependencies: [],
+// 	devDependencies: ["clean-webpack-plugin"]
+// }
+
+// {
+// 	name: "copywebpackplugin",
+// 	code: {
+// 		plugins: [
+// 			"new CopyPlugin({ patterns: [{ from: 'src/index.html' }], })"
+// 		],
+// 	},
+// 	require: "const CopyPlugin = require('copy-webpack-plugin');",
+// 	dependencies: [],
+// 	devDependencies: ["copy-webpack-plugin"]
+// }
+
+// {
+// 	name: "minicssextractplugin",
+// 	code: {
+// 		plugins: [
+// 			"new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, })"
+// 		],
+// 	},
+// 	require: "const MiniCssExtractPlugin = require('mini-css-extract-plugin');",
+// 	dependencies: [],
+// 	devDependencies: ["mini-css-extract-plugin"]
+// }
+
+// {
+// 	name: "htmlwebpackplugin",
+// 	code: {
+// 		plugins: [
+// 			"new HtmlWebpackPlugin({ appMountId: 'app', filename: 'index.html'})"
+// 		],
+// 	},
+// 	require: "const HtmlWebpackPlugin = require('html-webpack-plugin');",
+// 	dependencies: [],
+// 	devDependencies: ["html-webpack-plugin"]
+// }
+
+// {
+// 	name: "codesplitvendor",
+// 	code: {
+// 		output: {
+// 			filename: "[name].[contenthash].js"
+// 		},
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.js$/",
+// 					use: "babel-loader",
+// 					exclude: "/node_modules/"
+// 				},
+// 			],
+// 		},
+// 		optimization: {
+// 			runtimeChunk: "single",
+// 			splitChunks: {
+// 				cacheGroups: {
+// 					vendor: {
+// 						test: "/[\\/]node_modules[\\/]/",
+// 						name: "vendors",
+// 						chunks: "all",
+// 					},
+// 				},
+// 			},
+// 		},
+// 		devServer: {
+// 			contentBase: './dist',
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["html-webpack-plugin"]
+// }
+
+// {
+// 	name: "lodash",
+// 	code: {
+// 		plugins: [
+// 			"new LodashModuleReplacementPlugin"
+// 		],
+// 	},
+// 	require: "const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');",
+// 	dependencies: ["lodash"],
+// 	devDependencies: ["lodash-webpack-plugin"]
+// }
+
+// {
+// 	name: "moment",
+// 		code: {
+// 		plugins: [
+// 			"new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/)"
+// 		]
+// 	},
+// 	require: "",
+// 		dependencies: [
+// 			"moment"
+// 		],
+// 			devDependencies: []
+// }
+
+// {
+// 	name: "typescript",
+// 	code: {
+// 		entry: "./src/index.ts",
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.ts(x)?$/",
+// 					loader: "ts-loader",
+// 					exclude: "/node_modules/",
+// 				},
+// 			],
+// 		},
+// 		resolve: {
+// 			extensions: [
+// 				".tsx",
+// 				".ts",
+// 				".js",
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["typescript", "ts-loader", "@types/react", "types/react-dom"]
+// }
+
+// {
+// 	name: "less",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.less$/",
+// 					use: [
+// 						"style-loader",
+// 						"css-loader",
+// 						"less-loader",
+// 					],
+// 				},
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["css-loader", "less-loader", "less", "style-loader"]
+// }
+
+// {
+// 	name: "stylus",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.styl$/",
+// 					use: [
+// 						"style-loader",
+// 						"css-loader",
+// 						"stylus-loader",
+// 					],
+// 				},
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["css-loader", "stylus-loader", "stylus", "style-loader"]
+// }
+
+// {
+// 	name: "svg",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: "/\.svg$/",
+// 					use: "file-loader",
+// 				},
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["file-loader"]
+// }
+
+// {
+// 	name: "png",
+// 	code: {
+// 		module: {
+// 			rules: [
+// 				{
+// 					test: '/\.png$/',
+// 					use: [
+// 						{
+// 							loader: 'url-loader',
+// 							options: {
+// 								mimetype: 'image/png',
+// 							},
+// 						},
+// 					],
+// 				},
+// 			],
+// 		},
+// 	},
+// 	require: "",
+// 	dependencies: [],
+// 	devDependencies: ["url-loader"]
+// }
 
 // {
 // 	name: "nolibrary",
@@ -208,23 +549,7 @@ module.exports = webpackController;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// =========================================== ===============================================
 
 
 // const db = require('../models/database');
