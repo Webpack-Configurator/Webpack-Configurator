@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "hot-module-replacement": "^3.0.4",
     "mini-css-extract-plugin": "^0.10.0",
+    "mongoose": "^5.10.0",
     "nodemon": "^2.0.4",
     "pg": "^8.3.0",
     "react": "^16.13.1",
