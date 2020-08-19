@@ -1,11 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import '../css/App.css';
 import { Link } from 'react-router-dom';
+import 'highlight.js/styles/darcula.css';
+import hljs from 'highlight.js';
+const path = require('path')
 
+const stringifyObject = require('stringify-object');
+hljs.initHighlightingOnLoad();
 const Home = (props) => {
-
 	// here we tie the selections to the state selected, and the logic is so that
 	// some of the logic is dependent on other radios or checkboxes
+  
+  // RATS NEST OBJ TO TEST HIGHLIGHTING
+  // 
+   var obj = {
+  	module: {
+      output: { path: "path.resolve(__dirname, 'dist')", filename: 'bundle.js', },
+  	                            	rules: [{
+  	test: /\.jsx?/,exclude: /node_modules/,
+  				use: {
+  loader: 'babel-loader',
+  	options: {
+              presets: ['@babel/preset-env', 
+                                          '@babel/preset-react'],
+  plugins:                ['@babel/plugin-transform-runtime'],
+  					},},},{
+  			                              	test: /\.css$/i,
+                                                                  use: ['style-loader', 
+    'css-loader'],
+  	},
+  		                          ],
+  	},resolve: {extensions: ['.js', '.jsx'],},devServer: {publicPath: '/build/',
+  		                                    historyApiFallback: true,
+  hot: true,
+  		proxy: {
+  			'/api': 'http://localhost:3000',
+  		},
+  },};
+  const pretty = stringifyObject(obj, {
+    transform: (obj, prop, originalResult) => {
+        if (prop === 'path') {
+            return originalResult.replace(/['"]+/g, '');
+        } else {
+            return originalResult;
+        }
+    }
+});
 
 	return (
 		<div className='homeOuterContainer'>
@@ -51,6 +91,10 @@ const Home = (props) => {
 					<button className='startButton'>Start</button>
 				</Link>
 			</div>
+  <div className="codeBlock"><pre><code class="javascript">{`const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');\n\nmodule.exports = `}{pretty}</code></pre></div>
 		</div>
 	)
 }
