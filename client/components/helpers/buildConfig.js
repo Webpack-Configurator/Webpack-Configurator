@@ -1,3 +1,22 @@
+/** fetchedRulesToObjects parses the fetched data into
+ *  three 
+*/
+const fetchedRulesToObjects = (rulesArray) => {
+  const rulesObj = {};
+  const dependancies = {};
+  const devDependancies = {};
+  const requirements = {};
+
+  for (const rule of rulesArray) {
+    rulesObj[rule.name] = rule.code;
+    dependancies[rule.name] = rule.dependancies;
+    devDependancies[rule.name] = rule.devDependancies;
+    requirements[rule.name] = rule.require;
+  }
+
+  return [rulesObj, dependancies, devDependancies, requirements];
+}
+
 /** `merge` is a helper function used to merge base config
  *  object with update objects. `merge` is called from buildConfig
  */
