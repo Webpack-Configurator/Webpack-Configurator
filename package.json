@@ -42,6 +42,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "stringify-object": "^3.3.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.1"
   },

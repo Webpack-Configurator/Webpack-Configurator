@@ -17,8 +17,8 @@ const Schema = mongoose.Schema;
 
 // sets a schema for the 'dependencies' collection
 const dependenciesSchema = new Schema({
-	name: String,
-	code: { type: Object, required: true, unique: true },
+	name: { type: String, unique: true },
+	code: { type: Object, required: true, },
 	require: String,
 	dependencies: Array,
 	devDependencies: Array
@@ -27,6 +27,15 @@ const dependenciesSchema = new Schema({
 // creats a model for the 'dependencies' collection that will be part of the export
 const Dependencies = mongoose.model('dependencies', dependenciesSchema);
 
+const librarySchema = new Schema({
+	name: { type: String, unique: true },
+	code: { type: Object, required: true, },
+	require: String,
+	dependencies: Array,
+	devDependencies: Array
+});
+
+const Library = mongoose.model('library', librarySchema);
 
 // exports the model in an object to be used in the controller
-module.exports = Dependencies;
+module.exports = { Dependencies, Library };
