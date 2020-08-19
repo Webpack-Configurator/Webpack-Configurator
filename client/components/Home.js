@@ -15,7 +15,7 @@ const Home = (props) => {
   // 
    var obj = {
   	module: {
-      output: { path: path.resolve(__dirname, 'dist'), filename: 'bundle.js', },
+      output: { path: "path.resolve(__dirname, 'dist')", filename: 'bundle.js', },
   	                            	rules: [{
   	test: /\.jsx?/,exclude: /node_modules/,
   				use: {
@@ -38,9 +38,14 @@ const Home = (props) => {
   		},
   },};
   const pretty = stringifyObject(obj, {
-      indent: '  ',
-      singleQuotes: false
-  });
+    transform: (obj, prop, originalResult) => {
+        if (prop === 'path') {
+            return originalResult.replace(/['"]+/g, '');
+        } else {
+            return originalResult;
+        }
+    }
+});
 
 	return (
 		<div className='homeOuterContainer'>
