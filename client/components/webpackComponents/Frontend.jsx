@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/App.css';
 // import { Link } from 'react-router-dom';
-
+import { fetchedRulesToObjects, merge, buildConfig } from '../helpers/buildConfig';
 const Frontend = (props) => {
     // const [checked, setChecked] = useState(false)
     
@@ -10,7 +10,8 @@ const Frontend = (props) => {
 
         props.onChange(event.target.value, event.target.checked);
         // const defaults = Object.keys(checked).forEach(key => {if (key !== event.target.name) checked[key] = false});
-        
+        // const newConfig = buildConfig(props.selected, props.rules);
+        // console.log(newConfig);
         // setChecked(event.target.checked)
 
     };

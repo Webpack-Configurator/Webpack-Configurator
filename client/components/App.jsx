@@ -14,7 +14,8 @@ import Home from './Home';
 // import 'highlight.js/styles/darcula.css';
 // import hljs from 'highlight.js';
 import Highlight from 'react-highlight';
-import { Prettify } from './helpers/Prettify'
+import { Prettify } from './helpers/Prettify';
+import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig';
 
 
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
@@ -25,6 +26,10 @@ const App = () => {
 	const [selected, setSelected] = useState({});
 
 	const [store, setStore] = useState();
+	const [rules, setRules] = useState({});
+	const [dependencies, setDependencies] = useState({});
+	const [devDependencies, setDevDependencies] = useState({});
+	const [requirements, setRequirements] = useState({});
 
 	const updateObject = (obj) => {
 		// setStore(pretty)
@@ -33,15 +38,23 @@ const App = () => {
 	}
 
 	useEffect(() =>  {
-		console.log('hihi')
 		fetch('/api')
 			.then(response => response.json())
 			.then(data => {
-				console.log('it was working')
-				console.log(data)
-				updateObject(data[0].code)
+				const result = fetchedRulesToObjects(data)
+				setRules(result[0]);
+				setDependencies(result[1]);
+				setDevDependencies(result[2]);
+				setRequirements(result[3]);
+				//updateObject(data[0].code)
 			})
-	})	
+	}, [])
+	
+	useEffect(() => {
+        const newConfig = buildConfig(selected, rules);
+		console.log(newConfig);
+	}, [selected])
+	
 
 	//coming from database
 	//name, code, require, devDependency, dependency
@@ -60,12 +73,10 @@ const App = () => {
 		}
 	}
 
-	
-	
 	return (
 		<div className="main-container">
 			<div className="component-container">
-				<Frontend selected={selected} onChange={handleSelectChange}/>
+				<Frontend selected={selected} onChange={handleSelectChange} rules={rules}/>
 				<UI selected={selected} onChange={handleSelectChange}/>
 				<Test selected={selected} onChange={handleSelectChange}/>
 				<Transpiler selected={selected} onChange={handleSelectChange}/>

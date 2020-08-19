@@ -3,18 +3,18 @@
 */
 const fetchedRulesToObjects = (rulesArray) => {
   const rulesObj = {};
-  const dependancies = {};
-  const devDependancies = {};
+  const dependencies = {};
+  const devDependencies = {};
   const requirements = {};
 
   for (const rule of rulesArray) {
     rulesObj[rule.name] = rule.code;
-    dependancies[rule.name] = rule.dependancies;
-    devDependancies[rule.name] = rule.devDependancies;
+    dependencies[rule.name] = rule.dependencies;
+    devDependencies[rule.name] = rule.devDependencies;
     requirements[rule.name] = rule.require;
   }
 
-  return [rulesObj, dependancies, devDependancies, requirements];
+  return [rulesObj, dependencies, devDependencies, requirements];
 }
 
 /** `merge` is a helper function used to merge base config
@@ -86,4 +86,4 @@ const buildConfig = (stateVariables, updateObjects) => {
     return merge(config, update) }, updateObjects.nolibrary);
 };
 
-export { merge, buildConfig };
+export { fetchedRulesToObjects, merge, buildConfig };
