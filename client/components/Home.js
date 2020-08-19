@@ -14,7 +14,7 @@ const Home = (props) => {
   // RATS NEST OBJ TO TEST HIGHLIGHTING
   // 
 
-   var obj = {
+   const obj = {
     entry: "path.resolve(__dirname, './client/index.js')",
     output: {
       path: "path.resolve(__dirname, 'build')",
@@ -61,6 +61,9 @@ test: /\.css$/i,
       },
     },  
   };
+  const prettify = () => {
+    
+  }
   // const stringy = JSON.stringify(obj, undefined, 2);
   const pretty = stringifyObject(obj, {
     transform: (obj, prop, originalResult) => {

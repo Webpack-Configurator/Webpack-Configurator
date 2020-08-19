@@ -14,7 +14,13 @@ const Frontend = (props) => {
         // setChecked(event.target.checked)
 
     };
+    // const handleClick =() => {
 
+    //     //merging what Nick has
+    //     //prettifiyng whtat aryeh has
+    //     //store using setStore
+
+    // }
     // props.setSelected({ ...props.selected, noLibrary: (!props.selected.noLibrary) true ---> false ---> true, react: false })}
 
 	// here we tie the selections to the state selected, and the logic is so that
