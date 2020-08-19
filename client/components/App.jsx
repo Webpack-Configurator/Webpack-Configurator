@@ -10,6 +10,7 @@ import Utilities from './webpackComponents/Utilities';
 import Linting from './webpackComponents/Linting';
 import Optimization from './webpackComponents/Optimization';
 import Plugin from './webpackComponents/Plugin';
+import Home from './Home';
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
 
 const App = () => {
@@ -49,7 +50,7 @@ const App = () => {
 				<Plugin selected={selected} onChange={handleSelectChange}/>
 			</div>
 			<div className="code-container">
-				<code>Hello</code>
+				<Home />
 			</div>
 		</div>
 	)
