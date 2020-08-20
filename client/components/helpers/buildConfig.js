@@ -115,5 +115,37 @@ const buildRequirements = (stateVariables, requirementsList) => {
   
   return requirementString;
 }
+/** Returns a string containing packages matching current checkbox and radio selections. */
+const buildDeps = (stateVariables, depsList) => {
+  // Create an array containing the names of currently checked boxes and radio buttons
+  const toBuildReg = buildList(stateVariables);
+  
+  // Map over array of checked objects, building an array of matching requirements.
+  const deps = toBuildReg.map((objectName) => depsList[objectName]);
+  // Filter empty strings
+  const filteredDeps = deps.filter((item) => item.length > 0);
+  
+  // Loop through array of update strings, concatenating them into a single string.
+  let depstring = '';
+  filteredDeps.forEach((el) => {
+    // Join array as string (remove commas)
+    if (Array.isArray(el)) {
+      el = el.join(' ');
+    }
+    depstring += el + ` `
+  });
+  
+  return depstring;
+}
 
-export { fetchedRulesToObjects, merge, buildConfig, buildRequirements, buildList };
+//return a string containing dependency state and development dependency state 
+const installScript = (stateVariables, dep, devDep) => {
+  //check if the object is empty, return empty string
+  if (Object.keys(dep).length === 0 && Object.keys(devDep).length === 0) return '';
+  const reg = buildDeps(stateVariables, dep);
+  const dev = buildDeps(stateVariables, devDep);
+
+  // npm i reg && npm i -D dev
+  return `npm i ${reg} && npm i -D ${dev}`
+}
+export { fetchedRulesToObjects, merge, buildConfig, buildRequirements, buildList, buildDeps, installScript };

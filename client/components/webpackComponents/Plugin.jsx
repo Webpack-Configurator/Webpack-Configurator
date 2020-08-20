@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../../css/App.css';
-// import { Link } from 'react-router-dom';
+
 
 const Plugin = (props) => {
 
-	// here we tie the selections to the state selected, and the logic is so that
-	// some of the logic is dependent on other radios or checkboxes
-		// 	htmlwebpackplugin: false,
-		// 	webpackbundleanalyzer: false,
-		// 	minicssextractplugin: false,
-		// 	copywebpackplugin: false,
-		// 	cleanwebpackplugin: false
 	const handleChange = (e) => {
 		props.onChange(e.target.value, e.target.checked);
 	}
