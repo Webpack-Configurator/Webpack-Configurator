@@ -13,14 +13,12 @@ const Styling = (props) => {
 
 	return (
 		<div>
-            <ul><strong>Test Framework</strong>
-                <li><input type="checkbox" value="jest" onChange={(e)=> handleChange(e)} />Jest</li>
-				<li><input type="checkbox" value="mocha" onChange={(e)=> handleChange(e)} />Mocha</li>
-				<li><input type="checkbox" value="chai" onChange={(e)=> handleChange(e)} />Chai</li>
-				<li><input type="checkbox" value="jasmine" onChange={(e)=> handleChange(e)} />Jasmine</li>
-				<li><input type="checkbox" value="ava" onChange={(e)=> handleChange(e)} />AVA</li>
-				<li><input type="checkbox" value="cypress" onChange={(e)=> handleChange(e)} />Cypress</li>
-				<li><input type="checkbox" value="testcafe" onChange={(e)=> handleChange(e)} />TestCafe</li>
+            <ul><strong>Styling</strong>
+                <li><input type="checkbox" value="css" onChange={(e)=> handleChange(e)} />CSS</li>
+				<li><input type="checkbox" value="cssmodules" onChange={(e)=> handleChange(e)} />CSS Modules</li>
+				<li><input type="checkbox" value="sass" onChange={(e)=> handleChange(e)} />Sass</li>
+				<li><input type="checkbox" value="less" onChange={(e)=> handleChange(e)} />Less</li>
+				<li><input type="checkbox" value="stylus" onChange={(e)=> handleChange(e)} />Stylus</li>
             </ul>
 		</div>
 	)

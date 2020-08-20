@@ -36,20 +36,33 @@ const App = () => {
 	// 	setStore(test);
 	// }
 
-	useEffect(() => {
-		fetch('/api')
-			.then(response => response.json())
-			.then(data => {
-				// console.log(data)
-				const result = fetchedRulesToObjects(data)
+	let fetched = false;
 
-				setRules(result[0]);
-				setDependencies(result[1]);
-				setDevDependencies(result[2]);
-				setRequirements(result[3]);
-				//updateObject(data[0].code)
-			})
-	}, [])
+	const getData = () => {
+		fetch('/api')
+		.then(response => response.json())
+		.then(data => {
+			// console.log(data)
+			const result = fetchedRulesToObjects(data)
+			setRules(result[0]);
+			setDependencies(result[1]);
+			setDevDependencies(result[2]);
+			setRequirements(result[3]);
+		})
+	}
+
+	useEffect(() => {
+		if (!fetched) {
+			getData();
+			fetched = true;
+		}
+
+		let newConfig = buildConfig(selected, rules);
+		let test = Prettify(newConfig);
+		setStore(test)
+		//updateObject(data[0].code)
+			
+	}, [selected])
 	//coming from database
 	//name, code, require, devDependency, dependency
 	const handleSelectChange = (name, value) => {
@@ -61,47 +74,42 @@ const App = () => {
 		}
 
 		if (name === 'nolibrary' || name === 'react' || name === 'vue' || name === 'svelte') {
+			// console.log('frontend')
 			setSelected({ ...defaultState, [name]: value })
 		} else {
 			setSelected({ ...selected, [name]: value })
 		}
 	}
 
-	const outsideFunc = async (selected) => {
-		await setStore('')
-		console.log(store);
-		const newerConfig = await buildConfig(selected, rules);
-		let pretty = await Prettify(newerConfig);
-		setStore(pretty);
-	}
-	useEffect(() => {
-		// setTimeout(() => {
-		// }, 2000)
-		outsideFunc(selected);
-		// console.log('store now: ', store);
-		// let newConfig = buildConfig(selected, rules);
-		// console.log(selected);
-		// console.log(rules);
+	// const outsideFunc = async (selected) => {
+	// 	await setStore('')
+	// 	// console.log(store);
+	// 	const newerConfig = await buildConfig(selected, rules);
+	// 	let pretty = await Prettify(newerConfig);
+	// 	setStore(pretty);
+	// }
+	
+	// const newConfig = buildConfig(selected, rules);
 
-		// let test = Prettify(newConfig);
-		// console.log(newConfig);
-		// setStore(test)
-		// setTimeout(() => console.log(selected, 'store----->', store), 6000)
-	}, [selected])
+	// useEffect(() => {
+	// 	let newConfig = buildConfig(selected, rules);
+	// 	let test = Prettify(newConfig);
+	// 	setStore(test)
+	// }, [selected])
 
 	return (
 		<div className="main-container">
 			<div className="component-container">
-				<Frontend onChange={handleSelectChange} selected={selected} rules={rules} store={store} setStore={setStore} />
-				<UI selected={selected} onChange={handleSelectChange} />
-				<Test selected={selected} onChange={handleSelectChange} />
-				<Transpiler selected={selected} onChange={handleSelectChange} />
-				<Styling selected={selected} onChange={handleSelectChange} />
-				<Image selected={selected} onChange={handleSelectChange} />
-				<Utilities selected={selected} onChange={handleSelectChange} />
-				<Linting selected={selected} onChange={handleSelectChange} />
-				<Optimization selected={selected} onChange={handleSelectChange} />
-				<Plugin selected={selected} onChange={handleSelectChange} />
+				<Frontend onChange={handleSelectChange}  />
+				<UI onChange={handleSelectChange} setStore={setStore} />
+				<Test onChange={handleSelectChange} setStore={setStore} />
+				<Transpiler onChange={handleSelectChange} setStore={setStore} />
+				<Styling onChange={handleSelectChange} setStore={setStore} />
+				<Image onChange={handleSelectChange} setStore={setStore} />
+				<Utilities onChange={handleSelectChange} setStore={setStore}/>
+				<Linting onChange={handleSelectChange} setStore={setStore} />
+				<Optimization onChange={handleSelectChange} setStore={setStore} />
+				<Plugin onChange={handleSelectChange} setStore={setStore} />
 			</div>
 			<div className="code-container">
 				{/* <Home /> */}

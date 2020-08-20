@@ -69,7 +69,7 @@ const merge = (base, update) => {
  *  array into a single result object.
  */
 const buildConfig = (stateVariables, updateObjects) => {
-
+  // console.log(stateVariables);
   /** Convert stateVariables object into a filtered array.
     *  Need an array that has the name of all the checkboxes 
     *  that are set to true. The names should match the names
