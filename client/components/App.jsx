@@ -23,8 +23,7 @@ import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig
 const App = () => {
 
 	const [selected, setSelected] = useState({});
-
-	const [store, setStore] = useState("");
+	const [store, setStore] = useState('');
 	const [rules, setRules] = useState({});
 	const [dependencies, setDependencies] = useState({});
 	const [devDependencies, setDevDependencies] = useState({});
@@ -58,10 +57,18 @@ const App = () => {
 		}
 
 		let newConfig = buildConfig(selected, rules);
-		let test = Prettify(newConfig);
-		setStore(test)
-		//updateObject(data[0].code)
-			
+		if (newConfig === undefined) {
+			newConfig = {
+				entry: './src/index.js',
+				output: {
+				  path: "path.resolve(__dirname, 'dist')",
+				  filename: 'bundle.js',
+				},
+			};
+		}
+		let prettified = Prettify(newConfig);
+		
+		setStore(prettified);
 	}, [selected])
 	//coming from database
 	//name, code, require, devDependency, dependency
@@ -100,7 +107,7 @@ const App = () => {
 	return (
 		<div className="main-container">
 			<div className="component-container">
-				<Frontend onChange={handleSelectChange}  />
+				<Frontend onChange={handleSelectChange} selected={selected} />
 				<UI onChange={handleSelectChange} setStore={setStore} />
 				<Test onChange={handleSelectChange} setStore={setStore} />
 				<Transpiler onChange={handleSelectChange} setStore={setStore} />
