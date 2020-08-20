@@ -37,8 +37,8 @@ const Frontend = (props) => {
     return (
         <div>
             <ul><strong>Frontend Library</strong>
-                <li><input type="radio" name="frontend" value="nolibrary" onChange={(event) => handleChange(event)} /> No Library</li>
-                <li><input type="radio" name="frontend" value="react" onChange={(event) => handleChange(event)} /> React</li>
+                <li><input type="radio" name="frontend" value="nolibrary" onChange={(event) => handleChange(event)} />No Library</li>
+                <li><input type="radio" name="frontend" value="react" onChange={(event) => handleChange(event)} />React</li>
                 <li><input type="radio" name="frontend" value="vue" onChange={(event) => handleChange(event)} />Vue</li>
                 <li><input type="radio" name="frontend" value="svelte" onChange={(event) => handleChange(event)} />Svelte</li>
             </ul>
