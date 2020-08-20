@@ -9,17 +9,24 @@ h1 {
   font-family: 'Roboto';
 }
 header {
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
 .version {
   color: #da10e6;
-  text-shadow: 1px 1px black;
+  text-shadow: 1px 1px #000000b8, 2px 2px #000000b8, 3px 3px #000000b8;
+}
+#copy {
+  margin-top: 30px;
+}
+#copy .hljs {
+  padding: 15px;
 }
 .main-container {
-	display: flex;
+  display: flex;
   justify-content: center;
   width: 1200px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 .component-container {
   font-size: 14px;
@@ -64,4 +71,8 @@ li {
 input[type=checkbox], input[type=radio] {
   box-sizing: border-box;
   margin-right: 5px;
+}
+.btn-outline-info {
+  margin-right: 15px;
+  float: right;
 }
