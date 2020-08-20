@@ -42,6 +42,7 @@ module.exports = {
     hot: true,
     proxy: {
       '/api': 'http://localhost:3000',
+      '/download': 'http://localhost:3000',
     },
   },
 };

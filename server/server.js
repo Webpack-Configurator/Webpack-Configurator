@@ -12,7 +12,9 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 const apiRoute = require('../route/api');
+const downloadRoute = require('../route/download');
 app.use('/api', apiRoute);
+app.use('/download', downloadRoute);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use('/build', express.static(path.join(__dirname, '../build')));

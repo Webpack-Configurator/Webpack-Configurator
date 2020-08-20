@@ -44,6 +44,18 @@ const App = () => {
 			})
 	}
 
+	const getDownload = (requirementDisplay, store) => {
+		const fileContents = `const path = require('path');\n` + requirementDisplay + `\n\n` + `module.exports = ` + store;
+
+		const postOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json'},
+			body: JSON.stringify({ fileContents }),
+		}
+	
+		fetch('/download', postOptions);
+	}
+
 	useEffect(() => {
 		if (!fetched) {
 			getData();
@@ -124,6 +136,10 @@ const App = () => {
 				<CopyToClipboard text={devDisplay}>
 				<Button variant="outline-dark">Copy Script</Button>
         		</CopyToClipboard>
+			</div>
+			<div>
+				<button onClick={() => getDownload(requirementDisplay, store)}>Save File</button>
+				<a href="/download" download="webpack-config.js" >Get Your File</a> 
 			</div>
 		</div>
 	)
