@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/App.css';
-// import { Link } from 'react-router-dom';
 
 const Linting = (props) => {
 
-	// here we tie the selections to the state selected, and the logic is so that
-	// some of the logic is dependent on other radios or checkboxes
     const handleChange = (event) => { 
         props.onChange(event.target.value, event.target.checked);
 	};

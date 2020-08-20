@@ -4,7 +4,7 @@ body {
   font-size: 16px;
   color: #282b36;
 }
-h1{ 
+h1 { 
   text-align: center;
   font-family: 'Roboto';
 }
@@ -17,20 +17,22 @@ header {
 }
 .main-container {
 	display: flex;
-	justify-content: center;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
 }
 .component-container {
   font-size: 14px;
 }
 .code-container {
-  width: 65%;
-  margin-left: 50px;
+  width: 75%;
+  margin-left: 0;
 }
 code.javascript.hljs {
   min-height: 850px;
   border-radius: 8px;
   box-shadow: 0 0 8px #00000078;
-  padding: 10px;
+  padding: 25px;
 }
 strong {
   color: #b32e9c;
@@ -55,4 +57,11 @@ li {
 }
 .hljs-subst, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-symbol, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-template-tag, .hljs-template-variable, .hljs-addition {
   color: #ffcb06 !important;
+}
+.btn-outline-dark {
+  float: right;
+}
+input[type=checkbox], input[type=radio] {
+  box-sizing: border-box;
+  margin-right: 5px;
 }

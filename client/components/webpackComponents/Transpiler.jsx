@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../../css/App.css';
-// import { Link } from 'react-router-dom';
 
 const Transpiler = (props) => {
 
