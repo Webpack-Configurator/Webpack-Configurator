@@ -127,8 +127,8 @@ const App = () => {
 				<Highlight className='javascript' >
 					{`const path = require('path');\n` + requirementDisplay + `\n\n` + `module.exports = ` + store}
 				</Highlight>
-				<h1>NPM Packages</h1>
 				<div id="copy">
+				<h1>NPM Packages</h1>
 				<Highlight>
 				{devDisplay}
 				</Highlight>
@@ -136,10 +136,10 @@ const App = () => {
 				<CopyToClipboard text={devDisplay}>
 				<Button variant="outline-dark">Copy Script</Button>
         		</CopyToClipboard>
+        <Button href="/download" variant="outline-info" download="webpack-config.js">Get Your File</Button>
+				<Button variant="outline-info" onClick={() => getDownload(requirementDisplay, store)}>Save Your File</Button>
 			</div>
 			<div>
-				<button onClick={() => getDownload(requirementDisplay, store)}>Save File</button>
-				<a href="/download" download="webpack-config.js" >Get Your File</a> 
 			</div>
 		</div>
 	)
