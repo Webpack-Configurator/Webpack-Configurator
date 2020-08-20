@@ -4,7 +4,17 @@ body {
   font-size: 16px;
   color: #282b36;
 }
-
+h1{ 
+  text-align: center;
+  font-family: 'Roboto';
+}
+header {
+  margin-bottom: 50px;
+}
+.version {
+  color: #da10e6;
+  text-shadow: 1px 1px black;
+}
 .main-container {
 	display: flex;
 	justify-content: center;
@@ -14,9 +24,10 @@ body {
 }
 .code-container {
   width: 65%;
+  margin-left: 50px;
 }
 code.javascript.hljs {
-  min-height: 750px;
+  min-height: 850px;
   border-radius: 8px;
   box-shadow: 0 0 8px #00000078;
   padding: 10px;
