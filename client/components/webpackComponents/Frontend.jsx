@@ -9,6 +9,8 @@ const Frontend = (props) => {
 
     const handleChange = (event) => {
 
+        
+
         props.onChange(event.target.value, event.target.checked);
         console.log(props.selected)
         // const defaults = Object.keys(checked).forEach(key => {if (key !== event.target.name) checked[key] = false});

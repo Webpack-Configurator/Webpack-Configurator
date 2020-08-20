@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect, Component, useReducer } from 'react';
 import '../css/App.css';
 import Frontend from './webpackComponents/Frontend';
 import Test from './webpackComponents/Test';
@@ -21,7 +21,6 @@ import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
 
 const App = () => {
-
 
 	const [selected, setSelected] = useState({});
 
@@ -51,20 +50,6 @@ const App = () => {
 				//updateObject(data[0].code)
 			})
 	}, [])
-
-	useEffect(() => {
-		// setTimeout(() => {
-		// }, 2000)
-		setStore("")
-		console.log('store now: ', store);
-		const newConfig = buildConfig(selected, rules);
-		// console.log(rules);
-
-		const test = Prettify(newConfig);
-		setStore(test)
-		setTimeout(() => console.log(selected, 'store----->', store), 6000)
-	}, [selected])
-
 	//coming from database
 	//name, code, require, devDependency, dependency
 	const handleSelectChange = (name, value) => {
@@ -81,6 +66,28 @@ const App = () => {
 			setSelected({ ...selected, [name]: value })
 		}
 	}
+
+	const outsideFunc = async (selected) => {
+		await setStore('')
+		console.log(store);
+		const newerConfig = await buildConfig(selected, rules);
+		let pretty = await Prettify(newerConfig);
+		setStore(pretty);
+	}
+	useEffect(() => {
+		// setTimeout(() => {
+		// }, 2000)
+		outsideFunc(selected);
+		// console.log('store now: ', store);
+		// let newConfig = buildConfig(selected, rules);
+		// console.log(selected);
+		// console.log(rules);
+
+		// let test = Prettify(newConfig);
+		// console.log(newConfig);
+		// setStore(test)
+		// setTimeout(() => console.log(selected, 'store----->', store), 6000)
+	}, [selected])
 
 	return (
 		<div className="main-container">
