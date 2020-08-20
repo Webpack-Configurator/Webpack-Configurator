@@ -8,7 +8,7 @@ const fetchedRulesToObjects = (rulesArray) => {
   const requirements = {};
 
   for (const rule of rulesArray) {
-    
+
     rulesObj[rule.name] = rule.code || {};
     dependencies[rule.name] = rule.dependencies;
     devDependencies[rule.name] = rule.devDependencies;
@@ -64,31 +64,56 @@ const merge = (base, update) => {
 };
 
 
-/** buildConfig takes select state variable and update rules,
- *  converts select state variable into a filtered array, 
- *  and maps over that array to form an array of update objects
- *  pulled from update rules. `merge` helper function called 
+/** Helper function that takes in selected state variable (state of checkboxes)
+ *  and returns a filtered array of the names of those boxes that are checked.
+ */
+const buildList = (stateVariables) => {
+  const toBuild = [];
+  for (const key in stateVariables) {
+    if (stateVariables[key]) toBuild.push(key);
+  }
+  return toBuild;
+}
+
+/** buildConfig takes selected state variable and update rules,
+ *  uses helper function to convert selected state variable into
+ *  a filtered array, and maps over that array to form an array of 
+ *  update objects pulled from update rules. `merge` helper function called 
  *  from within a reducer to combine all update rules in the
  *  array into a single result object.
  */
 const buildConfig = (stateVariables, updateObjects) => {
-  // console.log(stateVariables);
   /** Convert stateVariables object into a filtered array.
     *  Need an array that has the name of all the checkboxes 
     *  that are set to true. The names should match the names
     *  of the corresponding update in updateObjects.
     */
-  const toBuild = [];
-  for (const key in stateVariables) {
-    if (stateVariables[key]) toBuild.push(key);
-  }
-  //console.log(toBuild);
+  const toBuild = buildList(stateVariables);
+
   /** Map array of selected boxes to create array of objects to merge */
-  const buildObjects = toBuild.map((objectName) => updateObjects[objectName]); 
-  
+  const buildObjects = toBuild.map((objectName) => updateObjects[objectName]);
+
   /** Build config object by reducing all update objects to a single object using merge */
   return buildObjects.reduce((config, update) => {
-    return merge(config, update) }, updateObjects.nolibrary);
+    return merge(config, update)
+  }, updateObjects.nolibrary);
 };
 
-export { fetchedRulesToObjects, merge, buildConfig };
+/** Returns a string containing requirements matching current checkbox selections. */
+const buildRequirements = (stateVariables, requirementsList) => {
+  // Create an array containing the names of currently checked boxes
+  const toBuild = buildList(stateVariables);
+  
+  // Map over array of checked objects, building an array of matching requirements.
+  const requirements = toBuild.map((objectName) => requirementsList[objectName]);
+  // Filter empty strings
+  const filteredReqs = requirements.filter((item) => item.length > 0);
+  
+  // Loop through array of update strings, concatenating them into a single string.
+  let requirementString = '';
+  filteredReqs.forEach((el) => requirementString += el + `\n`);
+  
+  return requirementString;
+}
+
+export { fetchedRulesToObjects, merge, buildConfig, buildRequirements, buildList };
