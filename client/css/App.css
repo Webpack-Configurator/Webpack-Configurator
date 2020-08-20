@@ -1,21 +1,47 @@
- body {
-	background-color: #F5F5F5;
- }
+body {
+  background-color: #F5F5F5;
+  font-family: 'Source Code Pro','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  color: #282b36;
+}
 
 .main-container {
 	display: flex;
 	justify-content: center;
 }
 .component-container {
-	
+  font-size: 14px;
 }
 .code-container {
   width: 65%;
-  background: #000;
+}
+code.javascript.hljs {
+  min-height: 750px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #00000078;
+  padding: 10px;
+}
+strong {
+  color: #b32e9c;
+}
+pre {
+  margin-top: 5px;
+}
+ul {
+  margin: 5px 5px 0 0;
+  padding-left: 0;
 }
 
-ul {
-}
 li {
   list-style: none;
+}
+
+.hljs-attr {
+  color: #d289cc;
+}
+.hljs-bullet, .hljs-quote, .hljs-link, .hljs-number, .hljs-regexp, .hljs-literal {
+  color: #8be9fd !important;
+}
+.hljs-subst, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-symbol, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-template-tag, .hljs-template-variable, .hljs-addition {
+  color: #ffcb06 !important;
 }

@@ -11,11 +11,11 @@ import Linting from './webpackComponents/Linting';
 import Optimization from './webpackComponents/Optimization';
 import Plugin from './webpackComponents/Plugin';
 import Home from './Home';
-// import 'highlight.js/styles/darcula.css';
+import 'highlight.js/styles/dracula.css';
 // import hljs from 'highlight.js';
 import Highlight from 'react-highlight';
 import { Prettify } from './helpers/Prettify';
-import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig';
+import { fetchedRulesToObjects, merge, buildConfig, buildRequirements, buildList } from './helpers/buildConfig';
 
 
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
@@ -23,8 +23,8 @@ import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig
 const App = () => {
 
 	const [selected, setSelected] = useState({});
-
-	const [store, setStore] = useState("");
+	const [store, setStore] = useState('');
+	const [requirementDisplay, setrequirementDisplay] = useState('');
 	const [rules, setRules] = useState({});
 	const [dependencies, setDependencies] = useState({});
 	const [devDependencies, setDevDependencies] = useState({});
@@ -40,15 +40,15 @@ const App = () => {
 
 	const getData = () => {
 		fetch('/api')
-		.then(response => response.json())
-		.then(data => {
-			// console.log(data)
-			const result = fetchedRulesToObjects(data)
-			setRules(result[0]);
-			setDependencies(result[1]);
-			setDevDependencies(result[2]);
-			setRequirements(result[3]);
-		})
+			.then(response => response.json())
+			.then(data => {
+				// console.log(data)
+				const result = fetchedRulesToObjects(data)
+				setRules(result[0]);
+				setDependencies(result[1]);
+				setDevDependencies(result[2]);
+				setRequirements(result[3]);
+			})
 	}
 
 	useEffect(() => {
@@ -57,14 +57,32 @@ const App = () => {
 			fetched = true;
 		}
 
+		// Build new config object based on current checkbox selections
 		let newConfig = buildConfig(selected, rules);
-		let test = Prettify(newConfig);
-		setStore(test)
-		//updateObject(data[0].code)
-			
+		if (newConfig === undefined) { // displays default config object
+			newConfig = {
+				entry: './src/index.js',
+				output: {
+					path: "path.resolve(__dirname, 'dist')",
+					filename: 'bundle.js',
+				},
+			};
+		}
+
+		/** Pass newConfig object through Prettify, which returns a string with
+		 *  line returns added, quotation marks stripped from regex expressions and 
+		 *  function invocations. */ 
+		let prettified = Prettify(newConfig);
+		// Update state with prettified string
+		setStore(prettified);
+
+		// Build new requirements string based on current checkbox selections
+		let newReqs = buildRequirements(selected, requirements);
+		// Update state with newly built requirements string
+		setrequirementDisplay(newReqs);
 	}, [selected])
-	//coming from database
-	//name, code, require, devDependency, dependency
+
+
 	const handleSelectChange = (name, value) => {
 		const defaultState = {
 			nolibrary: false,
@@ -75,7 +93,7 @@ const App = () => {
 
 		if (name === 'nolibrary' || name === 'react' || name === 'vue' || name === 'svelte') {
 			// console.log('frontend')
-			setSelected({ ...defaultState, [name]: value })
+			setSelected({ ...selected, ...defaultState, [name]: value })
 		} else {
 			setSelected({ ...selected, [name]: value })
 		}
@@ -88,7 +106,7 @@ const App = () => {
 	// 	let pretty = await Prettify(newerConfig);
 	// 	setStore(pretty);
 	// }
-	
+
 	// const newConfig = buildConfig(selected, rules);
 
 	// useEffect(() => {
@@ -100,13 +118,13 @@ const App = () => {
 	return (
 		<div className="main-container">
 			<div className="component-container">
-				<Frontend onChange={handleSelectChange}  />
+				<Frontend onChange={handleSelectChange} selected={selected} />
 				<UI onChange={handleSelectChange} setStore={setStore} />
 				<Test onChange={handleSelectChange} setStore={setStore} />
 				<Transpiler onChange={handleSelectChange} setStore={setStore} />
 				<Styling onChange={handleSelectChange} setStore={setStore} />
 				<Image onChange={handleSelectChange} setStore={setStore} />
-				<Utilities onChange={handleSelectChange} setStore={setStore}/>
+				<Utilities onChange={handleSelectChange} setStore={setStore} />
 				<Linting onChange={handleSelectChange} setStore={setStore} />
 				<Optimization onChange={handleSelectChange} setStore={setStore} />
 				<Plugin onChange={handleSelectChange} setStore={setStore} />
@@ -114,7 +132,7 @@ const App = () => {
 			<div className="code-container">
 				{/* <Home /> */}
 				<Highlight className='javascript'>
-					{store}
+					{`const path = require('path');\n` + requirementDisplay + `\n\n` + `module.exports = ` + store}
 				</Highlight>
 			</div>
 		</div>
