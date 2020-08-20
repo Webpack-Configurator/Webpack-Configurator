@@ -50,6 +50,9 @@ const merge = (base, update) => {
      */
     if (bothArrays) {
       base[key] = [...base[key], ...update[key]];
+      if (key === 'extensions') {
+        base[key] = base[key].filter((val, index, arr) => arr.indexOf(val) === index);
+      }
     } else if (bothObjects) {
       base[key] = merge(base[key], update[key]);
     } else {
