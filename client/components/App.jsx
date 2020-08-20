@@ -11,7 +11,7 @@ import Linting from './webpackComponents/Linting';
 import Optimization from './webpackComponents/Optimization';
 import Plugin from './webpackComponents/Plugin';
 import Home from './Home';
-// import 'highlight.js/styles/darcula.css';
+import 'highlight.js/styles/dracula.css';
 // import hljs from 'highlight.js';
 import Highlight from 'react-highlight';
 import { Prettify } from './helpers/Prettify';
