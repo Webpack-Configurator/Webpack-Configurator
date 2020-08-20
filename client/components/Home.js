@@ -62,7 +62,7 @@ test: /\.css$/i,
     },  
   };
   const prettify = () => {
-    
+
   }
   // const stringy = JSON.stringify(obj, undefined, 2);
   const pretty = stringifyObject(obj, {

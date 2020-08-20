@@ -3,18 +3,19 @@
 */
 const fetchedRulesToObjects = (rulesArray) => {
   const rulesObj = {};
-  const dependancies = {};
-  const devDependancies = {};
+  const dependencies = {};
+  const devDependencies = {};
   const requirements = {};
 
   for (const rule of rulesArray) {
-    rulesObj[rule.name] = rule.code;
-    dependancies[rule.name] = rule.dependancies;
-    devDependancies[rule.name] = rule.devDependancies;
+    
+    rulesObj[rule.name] = rule.code || {};
+    dependencies[rule.name] = rule.dependencies;
+    devDependencies[rule.name] = rule.devDependencies;
     requirements[rule.name] = rule.require;
   }
 
-  return [rulesObj, dependancies, devDependancies, requirements];
+  return [rulesObj, dependencies, devDependencies, requirements];
 }
 
 /** `merge` is a helper function used to merge base config
@@ -68,6 +69,7 @@ const merge = (base, update) => {
  *  array into a single result object.
  */
 const buildConfig = (stateVariables, updateObjects) => {
+
   /** Convert stateVariables object into a filtered array.
     *  Need an array that has the name of all the checkboxes 
     *  that are set to true. The names should match the names
@@ -77,7 +79,7 @@ const buildConfig = (stateVariables, updateObjects) => {
   for (const key in stateVariables) {
     if (stateVariables[key]) toBuild.push(key);
   }
-  
+  //console.log(toBuild);
   /** Map array of selected boxes to create array of objects to merge */
   const buildObjects = toBuild.map((objectName) => updateObjects[objectName]); 
   
@@ -86,4 +88,4 @@ const buildConfig = (stateVariables, updateObjects) => {
     return merge(config, update) }, updateObjects.nolibrary);
 };
 
-export { merge, buildConfig };
+export { fetchedRulesToObjects, merge, buildConfig };

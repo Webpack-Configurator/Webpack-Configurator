@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect, Component, useReducer } from 'react';
 import '../css/App.css';
 import Frontend from './webpackComponents/Frontend';
 import Test from './webpackComponents/Test';
@@ -14,35 +14,42 @@ import Home from './Home';
 // import 'highlight.js/styles/darcula.css';
 // import hljs from 'highlight.js';
 import Highlight from 'react-highlight';
-import { Prettify } from './helpers/Prettify'
+import { Prettify } from './helpers/Prettify';
+import { fetchedRulesToObjects, merge, buildConfig } from './helpers/buildConfig';
 
 
 // dear iterators, for any questions about the frontend, shoot a slack to Kadir and Burak
 
 const App = () => {
-	
 
 	const [selected, setSelected] = useState({});
 
-	const [store, setStore] = useState();
+	const [store, setStore] = useState("");
+	const [rules, setRules] = useState({});
+	const [dependencies, setDependencies] = useState({});
+	const [devDependencies, setDevDependencies] = useState({});
+	const [requirements, setRequirements] = useState({});
 
-	const updateObject = (obj) => {
-		// setStore(pretty)
-		const test = Prettify(obj);
-		setStore(test);
-	}
+	// const updateObject = (obj) => {
+	// 	// setStore(pretty)
+	// 	const test = Prettify(obj);
+	// 	setStore(test);
+	// }
 
-	useEffect(() =>  {
-		console.log('hihi')
+	useEffect(() => {
 		fetch('/api')
 			.then(response => response.json())
 			.then(data => {
-				console.log('it was working')
-				console.log(data)
-				updateObject(data[0].code)
-			})
-	})	
+				// console.log(data)
+				const result = fetchedRulesToObjects(data)
 
+				setRules(result[0]);
+				setDependencies(result[1]);
+				setDevDependencies(result[2]);
+				setRequirements(result[3]);
+				//updateObject(data[0].code)
+			})
+	}, [])
 	//coming from database
 	//name, code, require, devDependency, dependency
 	const handleSelectChange = (name, value) => {
@@ -50,36 +57,56 @@ const App = () => {
 			nolibrary: false,
 			react: false,
 			vue: false,
-			svelte: false,		
+			svelte: false,
 		}
 
 		if (name === 'nolibrary' || name === 'react' || name === 'vue' || name === 'svelte') {
-		  	setSelected({...defaultState, [name]: value})
+			setSelected({ ...defaultState, [name]: value })
 		} else {
-			setSelected({...selected, [name]: value })
+			setSelected({ ...selected, [name]: value })
 		}
 	}
 
-	
-	
+	const outsideFunc = async (selected) => {
+		await setStore('')
+		console.log(store);
+		const newerConfig = await buildConfig(selected, rules);
+		let pretty = await Prettify(newerConfig);
+		setStore(pretty);
+	}
+	useEffect(() => {
+		// setTimeout(() => {
+		// }, 2000)
+		outsideFunc(selected);
+		// console.log('store now: ', store);
+		// let newConfig = buildConfig(selected, rules);
+		// console.log(selected);
+		// console.log(rules);
+
+		// let test = Prettify(newConfig);
+		// console.log(newConfig);
+		// setStore(test)
+		// setTimeout(() => console.log(selected, 'store----->', store), 6000)
+	}, [selected])
+
 	return (
 		<div className="main-container">
 			<div className="component-container">
-				<Frontend selected={selected} onChange={handleSelectChange}/>
-				<UI selected={selected} onChange={handleSelectChange}/>
-				<Test selected={selected} onChange={handleSelectChange}/>
-				<Transpiler selected={selected} onChange={handleSelectChange}/>
-				<Styling selected={selected} onChange={handleSelectChange}/>
-				<Image selected={selected} onChange={handleSelectChange}/>
-				<Utilities selected={selected} onChange={handleSelectChange}/>
-				<Linting selected={selected} onChange={handleSelectChange}/>
-				<Optimization selected={selected} onChange={handleSelectChange}/> 
-				<Plugin selected={selected} onChange={handleSelectChange}/>
+				<Frontend onChange={handleSelectChange} selected={selected} rules={rules} store={store} setStore={setStore} />
+				<UI selected={selected} onChange={handleSelectChange} />
+				<Test selected={selected} onChange={handleSelectChange} />
+				<Transpiler selected={selected} onChange={handleSelectChange} />
+				<Styling selected={selected} onChange={handleSelectChange} />
+				<Image selected={selected} onChange={handleSelectChange} />
+				<Utilities selected={selected} onChange={handleSelectChange} />
+				<Linting selected={selected} onChange={handleSelectChange} />
+				<Optimization selected={selected} onChange={handleSelectChange} />
+				<Plugin selected={selected} onChange={handleSelectChange} />
 			</div>
 			<div className="code-container">
 				{/* <Home /> */}
 				<Highlight className='javascript'>
-				{store}
+					{store}
 				</Highlight>
 			</div>
 		</div>
@@ -92,9 +119,9 @@ export default App;
 
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  		// const defaultState2 = {
 		// 	bootstrap: false,
 		// 	tailwindcss: false,
@@ -123,12 +150,12 @@ export default App;
 		// 	webpackbundleanalyzer: false,
 		// 	minicssextractplugin: false,
 		// 	copywebpackplugin: false,
-		// 	cleanwebpackplugin: false			
+		// 	cleanwebpackplugin: false
 		// }
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  		<Router>
 			<div className='App'>
 				<Nav />
@@ -139,14 +166,14 @@ export default App;
 					<Route path='/tutorial' exact render={(props) => <Tutorial {...props} steps={steps} />} />
 					<Route path='/tutorial/:id' exact render={(props) => <Step {...props} steps={steps} />} />
 					<Route path='/finalstep' component={FinalStep} />
-					<Route path='/troubleshoot' component={Troubleshoot} /> 
+					<Route path='/troubleshoot' component={Troubleshoot} />
 					</Switch>
 					</div>
 				</Router>
  */
 
 /**
- * 
+ *
 	// creating a state to store in the selections of the client
 
 	const [selected, setSelected] = useState({
@@ -180,7 +207,7 @@ export default App;
 				setSteps(stepsList);
 			})
 			.catch(err => console.log(err))
-	} 
+	}
  	// using the useEffect hook to update the steps, and thus the components,
 	// whenever the state of selected is changed
 
