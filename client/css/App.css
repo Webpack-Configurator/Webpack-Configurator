@@ -1,7 +1,7 @@
 body {
   background-color: #F5F5F5;
   font-family: 'Source Code Pro','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   color: #282b36;
 }
 
@@ -10,7 +10,7 @@ body {
 	justify-content: center;
 }
 .component-container {
-  font-size: 10px;
+  font-size: 14px;
 }
 .code-container {
   width: 65%;
