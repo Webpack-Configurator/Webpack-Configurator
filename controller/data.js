@@ -1,5 +1,7 @@
 const models = require("../models/dependencies");
 const dependencies = require("../models/dependencies");
+const fs = require('fs');
+const path = require('path');
 const webpackController = {};
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -17,7 +19,15 @@ webpackController.getAll = async (req, res, next) => {
 	const response = await models.Library.find({})
 	res.locals.data = response;
 	next();
+};
+
+webpackController.writeFile = async (req, res, next) => {
+	const textForFile = req.body.fileContents;
+	fs.writeFileSync(path.resolve(__dirname, '../filesToServe/webpack-config.js'), textForFile);
+	next();
 }
+
+
 
 module.exports = webpackController;
 

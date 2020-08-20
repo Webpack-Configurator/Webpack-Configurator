@@ -51,6 +51,18 @@ const App = () => {
 			})
 	}
 
+	const getDownload = (requirementDisplay, store) => {
+		const fileContents = `const path = require('path');\n` + requirementDisplay + `\n\n` + `module.exports = ` + store;
+
+		const postOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json'},
+			body: JSON.stringify({ fileContents }),
+		}
+	
+		fetch('/download', postOptions);
+	}
+
 	useEffect(() => {
 		if (!fetched) {
 			getData();
@@ -99,22 +111,6 @@ const App = () => {
 		}
 	}
 
-	// const outsideFunc = async (selected) => {
-	// 	await setStore('')
-	// 	// console.log(store);
-	// 	const newerConfig = await buildConfig(selected, rules);
-	// 	let pretty = await Prettify(newerConfig);
-	// 	setStore(pretty);
-	// }
-
-	// const newConfig = buildConfig(selected, rules);
-
-	// useEffect(() => {
-	// 	let newConfig = buildConfig(selected, rules);
-	// 	let test = Prettify(newConfig);
-	// 	setStore(test)
-	// }, [selected])
-
 	return (
 		<div className="main-container">
 			<div className="component-container">
@@ -134,6 +130,10 @@ const App = () => {
 				<Highlight className='javascript'>
 					{`const path = require('path');\n` + requirementDisplay + `\n\n` + `module.exports = ` + store}
 				</Highlight>
+			</div>
+			<div>
+				<button onClick={() => getDownload(requirementDisplay, store)}>Save File</button>
+				<a href="/download" download="webpack-config.js" >Get Your File</a> 
 			</div>
 		</div>
 	)
