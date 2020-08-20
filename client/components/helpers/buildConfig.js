@@ -8,7 +8,8 @@ const fetchedRulesToObjects = (rulesArray) => {
   const requirements = {};
 
   for (const rule of rulesArray) {
-    rulesObj[rule.name] = rule.code;
+    
+    rulesObj[rule.name] = rule.code || {};
     dependencies[rule.name] = rule.dependencies;
     devDependencies[rule.name] = rule.devDependencies;
     requirements[rule.name] = rule.require;
@@ -68,6 +69,7 @@ const merge = (base, update) => {
  *  array into a single result object.
  */
 const buildConfig = (stateVariables, updateObjects) => {
+
   /** Convert stateVariables object into a filtered array.
     *  Need an array that has the name of all the checkboxes 
     *  that are set to true. The names should match the names
@@ -77,7 +79,7 @@ const buildConfig = (stateVariables, updateObjects) => {
   for (const key in stateVariables) {
     if (stateVariables[key]) toBuild.push(key);
   }
-  
+  //console.log(toBuild);
   /** Map array of selected boxes to create array of objects to merge */
   const buildObjects = toBuild.map((objectName) => updateObjects[objectName]); 
   
