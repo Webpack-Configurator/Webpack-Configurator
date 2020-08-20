@@ -36,22 +36,32 @@ const App = () => {
 	// 	setStore(test);
 	// }
 
-	useEffect(() => {
-		fetch('/api')
-			.then(response => response.json())
-			.then(data => {
-				// console.log(data)
-				const result = fetchedRulesToObjects(data)
-				setRules(result[0]);
-				setDependencies(result[1]);
-				setDevDependencies(result[2]);
-				setRequirements(result[3]);
+	let fetched = false;
 
-				let newConfig = buildConfig(selected, result[0]);
-				let test = Prettify(newConfig);
-				setStore(test)
-				//updateObject(data[0].code)
-			})
+	const getData = () => {
+		fetch('/api')
+		.then(response => response.json())
+		.then(data => {
+			// console.log(data)
+			const result = fetchedRulesToObjects(data)
+			setRules(result[0]);
+			setDependencies(result[1]);
+			setDevDependencies(result[2]);
+			setRequirements(result[3]);
+		})
+	}
+
+	useEffect(() => {
+		if (!fetched) {
+			getData();
+			fetched = true;
+		}
+
+		let newConfig = buildConfig(selected, rules);
+		let test = Prettify(newConfig);
+		setStore(test)
+		//updateObject(data[0].code)
+			
 	}, [selected])
 	//coming from database
 	//name, code, require, devDependency, dependency
