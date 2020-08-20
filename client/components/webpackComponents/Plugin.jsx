@@ -10,7 +10,11 @@ const Plugin = (props) => {
 		// 	webpackbundleanalyzer: false,
 		// 	minicssextractplugin: false,
 		// 	copywebpackplugin: false,
-		// 	cleanwebpackplugin: false	
+		// 	cleanwebpackplugin: false
+	const handleChange = (e) => {
+		props.onChange(e.target.value, e.target.checked);
+	}
+		
 	return (
 		<div>
             <ul><strong>Webpack plugins</strong>
