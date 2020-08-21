@@ -7,7 +7,7 @@ Please visit our website
 You can simply click what you want in the file.  
 You can either download it or copy into your codebase.  
 
-**Author:**. 
+**Author:**   
 Aryeh Kobrinsky [GitHub](https://github.com/akobrinsky).  
 Stanley Huang  [GitHub](https://github.com/stanpython).    
 Nick Kruckenberg [GitHub](https://github.com/kruckenberg).   
